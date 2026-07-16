@@ -1,1 +1,1 @@
-"""Routes package for the Flask application."""
+"""Routes package for Flask blueprints."""

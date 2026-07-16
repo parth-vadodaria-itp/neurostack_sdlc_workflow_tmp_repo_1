@@ -1,29 +1,20 @@
 import os
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from config import config_by_name
-
-db = SQLAlchemy()
-migrate = Migrate()
+from config import config
 
 def create_app(config_name='default'):
     """Application factory pattern."""
     app = Flask(__name__)
-    app.config.from_object(config_by_name[config_name])
-    
-    # Initialize extensions
-    db.init_app(app)
-    migrate.init_app(app, db)
+    app.config.from_object(config[config_name])
     
     # Register blueprints
-    from routes.home_routes import home_bp
-    app.register_blueprint(home_bp)
+    from routes.welcome_routes import welcome_bp
+    app.register_blueprint(welcome_bp)
     
     # Error handlers
     @app.errorhandler(404)
     def not_found(error):
-        return {'error': 'Resource not found'}, 404
+        return {'error': 'Not found'}, 404
     
     @app.errorhandler(500)
     def internal_error(error):
@@ -32,8 +23,6 @@ def create_app(config_name='default'):
     return app
 
 if __name__ == '__main__':
-    env = os.getenv('FLASK_ENV', 'development')
-    app = create_app(env)
+    app = create_app(os.getenv('FLASK_ENV', 'default'))
     port = int(os.getenv('PORT', 5000))
-    debug = os.getenv('FLASK_DEBUG', '1') == '1'
-    app.run(host='0.0.0.0', port=port, debug=debug)
+    app.run(host='0.0.0.0', port=port, debug=app.config['DEBUG'])
