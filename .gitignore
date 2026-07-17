@@ -33,13 +33,14 @@ env/
 instance/
 .webassets-cache
 
-# Environment variables
-.env
-
 # Database
 *.db
 *.sqlite
 *.sqlite3
+
+# Environment variables
+.env
+.env.local
 
 # IDE
 .vscode/
@@ -52,10 +53,13 @@ instance/
 .DS_Store
 Thumbs.db
 
+# Logs
+*.log
+
 # Testing
 .pytest_cache/
 .coverage
 htmlcov/
 
-# Logs
-*.log
+# Docker
+.dockerignore

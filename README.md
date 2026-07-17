@@ -3,15 +3,16 @@
 ## Overview
 A minimal Flask web application that displays a welcome message when accessing the home page.
 
-## Story
-**Story ID:** KAN-124  
-**Summary:** Develop a Simple Welcome Web Application
+## Story Details
+- **Story ID:** KAN-124
+- **Summary:** Develop a Simple Welcome Web Application
+- **Endpoint:** `GET /` returns "Hello Neurostack User"
 
 ## Requirements
 - Python 3.11+
 - Flask 3.x
 
-## Setup Instructions
+## Installation
 
 ### 1. Clone the repository
 ```bash
@@ -19,9 +20,9 @@ git clone https://github.com/parth-vadodaria-itp/neurostack_sdlc_workflow_tmp_re
 cd neurostack_sdlc_workflow_tmp_repo_1
 ```
 
-### 2. Create a virtual environment
+### 2. Create virtual environment
 ```bash
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
@@ -30,24 +31,37 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 4. Configure environment variables
+### 4. Configure environment
 ```bash
 cp .env.example .env
-# Edit .env if needed (defaults are fine for local development)
+# Edit .env if needed
 ```
 
-### 5. Run the application
+## Running the Application
+
+### Development Mode
 ```bash
-python -m flask run
+flask run
 ```
 
-Or using the app directly:
+Or using Python directly:
 ```bash
 python app.py
 ```
 
-### 6. Access the application
-Open your browser and navigate to:
+### Production Mode
+```bash
+gunicorn --bind 0.0.0.0:5000 --workers 4 "app:create_app()"
+```
+
+### Using Docker
+```bash
+docker-compose up --build
+```
+
+## Testing
+
+Once the application is running, navigate to:
 ```
 http://localhost:5000/
 ```
@@ -57,42 +71,49 @@ You should see:
 Hello Neurostack User
 ```
 
-## Acceptance Criteria
-✅ The application starts successfully without errors  
-✅ Navigating to `http://localhost:5000/` displays "Hello Neurostack User"  
-✅ The endpoint returns an HTTP 200 OK response  
-✅ No additional pages or APIs are required  
+## API Endpoints
+
+### GET /
+- **Description:** Returns welcome message
+- **Response:** Plain text "Hello Neurostack User"
+- **Status Code:** 200 OK
+
+### GET /health
+- **Description:** Health check endpoint
+- **Response:** JSON with status
+- **Status Code:** 200 OK
 
 ## Project Structure
 ```
 .
-├── requirements.txt       # Python dependencies
-├── .env                   # Environment variables (not in git)
-├── .env.example          # Environment variables template
-├── .gitignore            # Git ignore rules
-├── README.md             # This file
-├── config.py             # Configuration classes
-├── app.py                # Flask application factory
-└── routes/
-    ├── __init__.py       # Routes package
-    └── welcome_routes.py # Welcome endpoint blueprint
+├── app.py                      # Flask application factory
+├── config.py                   # Configuration classes
+├── requirements.txt            # Python dependencies
+├── .env                        # Environment variables (not in git)
+├── .env.example                # Environment template
+├── .gitignore                  # Git ignore rules
+├── Dockerfile                  # Container definition
+├── docker-compose.yml          # Docker orchestration
+├── README.md                   # This file
+├── routes/
+│   ├── __init__.py            # Routes package
+│   └── welcome_routes.py      # Welcome endpoint blueprint
+└── services/
+    ├── __init__.py            # Services package
+    └── welcome_service.py     # Welcome message service
 ```
+
+## Acceptance Criteria
+- ✅ The application starts successfully without errors
+- ✅ Navigating to `http://localhost:5000/` displays "Hello Neurostack User"
+- ✅ The endpoint returns an HTTP 200 OK response
+- ✅ No additional pages or APIs are required
 
 ## Technology Stack
 - **Language:** Python 3.11
 - **Framework:** Flask 3.x
+- **WSGI Server:** Gunicorn 26.x
 - **Package Manager:** pip
-- **Server:** Flask development server (gunicorn for production)
-
-## Development
-
-### Running in debug mode
-The `.env` file has `FLASK_DEBUG=1` enabled by default for development.
-
-### Production deployment
-```bash
-gunicorn -w 4 -b 0.0.0.0:5000 'app:create_app()'
-```
 
 ## License
 MIT
