@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  title: Simple Welcome Web Application (KAN-124)
+  description: A minimal Flask web application that displays a welcome message when a user accesses the application's home page.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+    description: Local development server
+paths:
+  /:
+    get:
+      summary: Get welcome message
+      description: Returns a plain text welcome message "Hello Neurostack User"
+      operationId: getWelcome
+      responses:
+        '200':
+          description: Successful response with welcome message
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Hello Neurostack User
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Resource not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
